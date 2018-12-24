@@ -1,0 +1,23 @@
+{
+  "name": "graphql-auth-server",
+  "version": "0.1.0",
+  "description": "SMART on FHIR auth server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js",
+    "init": "node ./src/utils/init_db.js",
+    "lint": "eslint src/**"
+  },
+  "author": "Louis Knight-Webb",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^5.11.0",
+    "eslint-config-google": "^0.11.0",
+    "koa": "^2.6.2",
+    "koa-mount": "^4.0.0",
+    "mongodb": "^3.1.10",
+    "mongoose": "^5.4.0",
+    "oidc-provider": "^5.5.2"
+  }
+}
