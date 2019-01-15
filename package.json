@@ -1,23 +1,26 @@
 {
-  "name": "graphql-auth-server",
-  "version": "0.1.0",
-  "description": "SMART on FHIR auth server",
+  "name": "fhir-oidc",
+  "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js",
-    "init": "node ./src/utils/init_db.js",
-    "lint": "eslint src/**"
+  "engines": {
+    "node": ">=8.9.0"
   },
-  "author": "Louis Knight-Webb",
-  "license": "ISC",
+  "scripts": {
+    "start":"node src/index"
+  },
   "dependencies": {
-    "eslint": "^5.11.0",
-    "eslint-config-google": "^0.11.0",
-    "koa": "^2.6.2",
-    "koa-mount": "^4.0.0",
-    "mongodb": "^3.1.10",
-    "mongoose": "^5.4.0",
-    "oidc-provider": "^5.5.2"
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "express-urlrewrite": "^1.2.0",
+    "ioredis": "^4.0.0",
+    "lodash": "^4.17.11",
+    "oidc-provider": "^5.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
   }
 }
