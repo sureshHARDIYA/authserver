@@ -17,7 +17,7 @@ const oidc = new Provider(AppConfig.APP_HOST, {
     openid: ["sub"],
     email: ["email", "email_verified"]
   },
-  scopes: ["patient", "patient/*.*"],
+  scopes: ["patient/*.*",'questionnaire/*.*','observation/*.*','organization/*.*'],
   interactionUrl(ctx) {
     return `/interaction/${ctx.oidc.uuid}`;
   },
@@ -44,20 +44,27 @@ oidc
     keystore,
     clients: [
       {
-        client_id: "foo",
-        client_secret: "namaskar",
+        client_id: "nirmal_implicit",
+        client_secret: "nirmal_implicit_secret",
         redirect_uris: ["https://example.com"],
         response_types: ["id_token token"],
         grant_types: ["implicit"],
         token_endpoint_auth_method: "client_secret_post"
       },
       {
-        client_id: 'authzwala_id',
-        client_secret: 'authzwala_secret',
+        client_id: 'suresh_authorization_client',
+        client_secret: 'authorization_client_secret_suresh',
         grant_types: ["authorization_code"],
         redirect_uris: ["https://example.com"],
         response_types: ["code"],
-        token_endpoint_auth_method: "client_secret_basic"
+        token_endpoint_auth_method: "client_secret_post"
+      },
+      {
+        client_id: 'dipesh_credentials_client',
+        client_secret: 'secret_of_dipesh_credentials',
+        grant_types: ['client_credentials'],
+        redirect_uris: [],
+        response_types: [],
       }
     ],
     adapter: RedisAdapter
