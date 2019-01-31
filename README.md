@@ -6,7 +6,7 @@
 > OpenId Connect 0Auth Server
 
 ### Meta
-> `http://localhost:3002/.well-known/openid-configuration`
+> `http://oauth.mhof.ml/.well-known/openid-configuration`
 
 # Installation
 
@@ -28,7 +28,7 @@ node src/index.js
 
 ### Sample request
 ```
-http://localhost:3002/auth?client_id=CLIENT_ID&response_type=id_token+token&scope=openid+email+patient/*.*&nonce=foobar&prompt=login
+http://oauth.mhof.ml/auth?client_id=CLIENT_ID&response_type=id_token+token&scope=openid+email+patient/*.*&nonce=foobar&prompt=login
 ```
 ## `Authorization_code`
 > The authorization code flow returns an authorization code that can then be exchanged for an identity token and/or access token
@@ -36,7 +36,7 @@ http://localhost:3002/auth?client_id=CLIENT_ID&response_type=id_token+token&scop
 ### Sample Request 1 (Get authorization_code)
 > Browser GET Request to
 `
-http://localhost:3002/auth?client_id=authzwala_id&response_type=code&scope=openid+email&nonce=foobar&prompt=login
+http://oauth.mhof.ml/auth?client_id=authzwala_id&response_type=code&scope=openid+email&nonce=foobar&prompt=login
 `
 ### Sample Request 2 (Exchange authorization_code for access_token)
 ```
@@ -62,3 +62,24 @@ Authorization: Basic <base64_encoded_credentialstoken>
 Body:
 grant_type=client_credentials&scopes=<scopes>
 ```
+
+
+
+
+# Roadmap
+- [x] Priliminary openid connect oauth implementation
+- [x] Priliminary Usage guide
+- [x] Static Clients and Accounts Setup
+- [x] Basic Scopes for `Organization`, `Observation` ,`Questionnaire` & `Questionnaire Response`
+- [ ] Accounts/User CRUD endpoints
+- [ ] Fetch scopes and claims from user accounts
+- [ ] Resource Owner permission and scopes Implementation (Probably)
+- [ ] Client registration (Probably)
+
+
+# Usage Recommendation
+#### Mobile Apps
+> `Implicit` or `Authorization_code` grant types
+
+#### Dashboard
+> `Client_credentials` grant type
