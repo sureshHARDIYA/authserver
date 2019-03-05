@@ -17,7 +17,7 @@ const oidc = new Provider(AppConfig.APP_HOST, {
     openid: ["sub"],
     email: ["email", "email_verified"]
   },
-  scopes: ["patient/*.*",'questionnaire/*.*','observation/*.*','organization/*.*', 'questionnaire/*.*', 'questionnaireresponse/*.*'],
+  scopes: ["patient/*.*"],
   interactionUrl(ctx) {
     return `/interaction/${ctx.oidc.uuid}`;
   },
