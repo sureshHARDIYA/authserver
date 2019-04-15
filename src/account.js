@@ -2,15 +2,15 @@ const assert = require('assert');
 const _ = require('lodash');
 
 const USERS = {
-  'adminpassword': {
+  adminpassword: {
     email: 'admin@mhof.ml',
     email_verified: true,
   },
-  'sureshpassword': {
+  sureshpassword: {
     email: 'suresh@mhof.ml',
     email_verified: true,
   },
-  'nirmalpassword': {
+  nirmalpassword: {
     email: 'nirmal@mhof.ml',
     email_verified: true,
   },
