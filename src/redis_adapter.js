@@ -1,16 +1,12 @@
 const Redis = require('ioredis'); // eslint-disable-line import/no-unresolved
 const { isEmpty } = require('lodash');
 const AppConfig = require('./config/appconfig');
+
 const client = new Redis(AppConfig.REDIS_URL, {
   keyPrefix: 'oidc:',
 });
 
-const grantable = new Set([
-  'AccessToken',
-  'AuthorizationCode',
-  'RefreshToken',
-  'DeviceCode',
-]);
+const grantable = new Set(['AccessToken', 'AuthorizationCode', 'RefreshToken', 'DeviceCode']);
 
 function grantKeyFor(id) {
   return `grant:${id}`;
@@ -27,10 +23,12 @@ class RedisAdapter {
 
   async upsert(id, payload, expiresIn) {
     const key = this.key(id);
-    const store = grantable.has(this.name) ? {
-      dump: JSON.stringify(payload),
-      ...(payload.grantId ? { grantId: payload.grantId } : undefined),
-    } : JSON.stringify(payload);
+    const store = grantable.has(this.name)
+      ? {
+        dump: JSON.stringify(payload),
+        ...(payload.grantId ? { grantId: payload.grantId } : undefined),
+      }
+      : JSON.stringify(payload);
 
     const multi = client.multi();
     multi[grantable.has(this.name) ? 'hmset' : 'set'](key, store);

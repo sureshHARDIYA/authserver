@@ -27,6 +27,7 @@ class Account {
     });
   }
 
+  // eslint-disable-next-line
   static async findById(ctx, id, token) {
     return new Account(id);
   }
