@@ -50,7 +50,7 @@ oidc
       {
         client_id: 'nirmal_implicit',
         client_secret: 'nirmal_implicit_secret',
-        redirect_uris: ['https://example.com'],
+        redirect_uris: [process.env.WEBCLIENT_URL || 'https://example.com'],
         response_types: ['id_token token'],
         grant_types: ['implicit'],
         token_endpoint_auth_method: 'client_secret_post',
@@ -59,7 +59,7 @@ oidc
         client_id: 'suresh_authorization_client',
         client_secret: 'authorization_client_secret_suresh',
         grant_types: ['authorization_code'],
-        redirect_uris: ['https://example.com'],
+        redirect_uris: [process.env.WEBCLIENT_URL || 'https://example.com'],
         response_types: ['code'],
         token_endpoint_auth_method: 'client_secret_post',
       },
