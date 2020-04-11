@@ -5,16 +5,13 @@ const Provider = require('oidc-provider');
 // const assert = require('assert');
 
 require('dotenv').config();
-const RedisAdapter = require('./redis_adapter');
+
+const MongoAdapter = require('./mongo_adapter');
 
 // Placeholder account model, Lets work on this after demo
 const Account = require('./account');
-const AppConfig = require('./config/appconfig');
 
-// eslint-disable-next-line no-console
-console.log('appconfig is', AppConfig);
-
-const oidc = new Provider(AppConfig.APP_HOST, {
+const oidc = new Provider(process.env.APP_HOST, {
   findById: Account.findById,
   claims: {
     openid: ['sub'],
@@ -48,9 +45,16 @@ oidc
     keystore,
     clients: [
       {
+        client_id: 'foo',
+        redirect_uris: ['https://example.com'],
+        response_types: ['id_token'],
+        grant_types: ['implicit'],
+        token_endpoint_auth_method: 'none',
+      },
+      {
         client_id: 'nirmal_implicit',
         client_secret: 'nirmal_implicit_secret',
-        redirect_uris: [process.env.WEBCLIENT_URL || 'https://example.com'],
+        redirect_uris: ['https://example.com'],
         response_types: ['id_token token'],
         grant_types: ['implicit'],
         token_endpoint_auth_method: 'client_secret_post',
@@ -59,7 +63,7 @@ oidc
         client_id: 'suresh_authorization_client',
         client_secret: 'authorization_client_secret_suresh',
         grant_types: ['authorization_code'],
-        redirect_uris: [process.env.WEBCLIENT_URL || 'https://example.com'],
+        redirect_uris: ['https://example.com'],
         response_types: ['code'],
         token_endpoint_auth_method: 'client_secret_post',
       },
@@ -71,11 +75,11 @@ oidc
         response_types: [],
       },
     ],
-    adapter: RedisAdapter,
+    adapter: MongoAdapter,
   })
   .then(() => {
     oidc.proxy = true;
-    oidc.keys = AppConfig.SECURE_KEY.split(',');
+    oidc.keys = process.env.SECURE_KEY.split(',');
   })
   .then(() => {
     const expressApp = express();
@@ -124,5 +128,5 @@ oidc
     });
 
     expressApp.use(oidc.callback);
-    expressApp.listen(AppConfig.PORT);
+    expressApp.listen(process.env.PORT);
   });

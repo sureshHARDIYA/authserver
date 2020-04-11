@@ -6,7 +6,7 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start":"node src/index"
+    "start": "node src/index"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -16,6 +16,7 @@
     "express-urlrewrite": "^1.2.0",
     "ioredis": "^4.0.0",
     "lodash": "^4.17.11",
+    "mongodb": "^3.5.5",
     "oidc-provider": "^5.0.1"
   },
   "devDependencies": {
