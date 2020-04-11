@@ -1,3 +1,5 @@
+const { authenciate } = require('../../utils');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
     user_id: {
@@ -20,7 +22,29 @@ module.exports = (sequelize, DataTypes) => {
     date_retired: DataTypes.DATE,
     retire_reason: DataTypes.STRING(255),
     uuid: DataTypes.STRING(38),
-  }, {});
+  }, {
+    timestamps: false
+  });
+
+  User.findByUsername = function(username) {
+    return this.findOne({ username });
+  };
+
+  User.authenticate = async function(username, password) {
+    const user = await this.findOne({ username });
+
+    if (!user) {
+      throw new Error(`${username} not exist!!`);
+    }
+
+    const validate = authenciate(password, user.password, user.salt);
+
+    if (!validate) {
+      throw new Error('Password is invalid');
+    }
+
+    return true;
+  };
 
   return User;
 };

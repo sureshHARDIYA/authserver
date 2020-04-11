@@ -6,6 +6,15 @@ const Provider = require('oidc-provider');
 
 require('dotenv').config();
 
+
+
+
+const Database = require('./database/models');
+
+
+Database.user.findByUsername('admin')
+  .then(s => console.log('1:', s))
+
 const MongoAdapter = require('./mongo_adapter');
 
 // Placeholder account model, Lets work on this after demo
