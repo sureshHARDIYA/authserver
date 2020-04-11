@@ -1,3 +1,5 @@
+const Database = require('./database/models');
+
 const assert = require('assert');
 const _ = require('lodash');
 
@@ -33,6 +35,8 @@ class Account {
   }
 
   static async authenticate(email, password) {
+    console.log('11:', await Database.findById(1));
+
     assert(password, 'password must be provided');
     assert(email, 'email must be provided');
     const lowercased = String(email).toLowerCase();

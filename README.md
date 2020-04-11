@@ -83,3 +83,6 @@ grant_type=client_credentials&scopes=<scopes>
 
 #### Dashboard
 > `Client_credentials` grant type
+
+
+//http://localhost:3000/auth?client_id=foo&response_type=id_token&scope=openid&nonce=1

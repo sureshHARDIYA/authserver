@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "crypto": "^1.0.1",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
@@ -17,7 +18,10 @@
     "ioredis": "^4.0.0",
     "lodash": "^4.17.11",
     "mongodb": "^3.5.5",
-    "oidc-provider": "^5.0.1"
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "oidc-provider": "^5.0.1",
+    "sequelize": "^5.21.6"
   },
   "devDependencies": {
     "eslint": "^5.6.1",
