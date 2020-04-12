@@ -14,7 +14,7 @@ const oidc = new Provider(process.env.APP_HOST, {
   clients: [
     {
       client_id: 'global',
-      redirect_uris: ['https://example.com'],
+      redirect_uris: [process.env.REDIRECT_URI || 'https://example.com'],
       response_types: ['id_token'],
       grant_types: ['implicit'],
       token_endpoint_auth_method: 'none',

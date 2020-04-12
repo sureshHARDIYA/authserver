@@ -1,4 +1,3 @@
-const assert = require('assert');
 const Database = require('./database/models');
 
 class Account {
@@ -39,7 +38,6 @@ class Account {
 
       return user.user_id.toString();
     } catch (e) {
-      assert(password, 'password must be provided');
       return undefined;
     }
   }

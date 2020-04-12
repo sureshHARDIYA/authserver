@@ -9,9 +9,7 @@
 
 // npm i sequelize@^5.21.2
 const Sequelize = require('sequelize'); // eslint-disable-line import/no-unresolved
-const config = require('./database/config');
-
-const sequelize = new Sequelize(config.database, config.username, config.password, config);
+const sequelize = require('./database/models').sequelize;
 
 const grantable = new Set([
   'AccessToken',
