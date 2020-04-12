@@ -6,6 +6,7 @@ class Account {
   }
 
   static async findAccount(ctx, id) {
+    console.log('findAccount:', findAccount)
     const account = await Database.user.findById(id);
 
     if (!account) {
@@ -25,7 +26,6 @@ class Account {
   }
 
   static async authenticate(username, password) {
-    try {
       const user = await Database.user.findByUsername(username);
 
       if (!user) {
@@ -36,10 +36,7 @@ class Account {
         throw new Error('Password is invalid');
       }
 
-      return user.user_id.toString();
-    } catch (e) {
-      return undefined;
-    }
+      return user
   }
 }
 
