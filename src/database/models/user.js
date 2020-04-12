@@ -1,4 +1,5 @@
 const { authenciate } = require('../../utils');
+const { Op } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
@@ -6,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER(10),
     },
+    system_id: DataTypes.STRING(50),
     username: DataTypes.STRING(50),
     password: DataTypes.STRING(128),
     salt: DataTypes.STRING(128),
@@ -22,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.findByUsername = function(username) {
-    return this.findOne({ where: { username } });
+    return this.findOne({ where: { [Op.or]: [{ username }, { system_id: username }] } });
   };
 
   User.prototype.authenticate = function (password) {
