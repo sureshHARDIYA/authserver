@@ -26,12 +26,23 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
 
-  User.findByUsername = function(username) {
-    return this.findOne({ username });
+
+  User.findById = async function (id) {
+    if (id) {
+      return await this.findOne({ where: { user_id: id } });
+    }
   };
 
+  User.findByUsername = function(username) {
+    return this.findOne({ where: { username } });
+  };
+
+  User.prototype.authenticate = function (password) {
+    return authenciate(password, this.password, this.salt);
+  }
+
   User.authenticate = async function(username, password) {
-    const user = await this.findOne({ username });
+    const user = await User.findByUsername(username);
 
     if (!user) {
       throw new Error(`${username} not exist!!`);

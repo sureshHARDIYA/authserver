@@ -19,8 +19,8 @@ const genRandomString = (length) => {
  */
 
 const sha512 = (password, salt) => {
-  const hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
-  hash.update(password);
+  const hash = crypto.createHash('sha512');
+  hash.update(password + salt);
   return { salt, password: hash.digest('hex') }
 };
 

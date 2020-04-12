@@ -20,7 +20,7 @@
     "mongodb": "^3.5.5",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
-    "oidc-provider": "^5.0.1",
+    "oidc-provider": "^6.23.5",
     "sequelize": "^5.21.6"
   },
   "devDependencies": {
