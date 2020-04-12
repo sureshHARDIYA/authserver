@@ -46,7 +46,7 @@ oidc
     clients: [
       {
         client_id: 'global',
-        client_secret: 'global_secret',
+        client_secret: process.env.GLOBAL_SECRET,
         redirect_uris: [process.env.WEBCLIENT_URL || 'https://example.com'],
         response_types: ['id_token token'],
         grant_types: ['implicit'],
