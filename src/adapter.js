@@ -37,7 +37,7 @@ const models = [
     ...(grantable.has(name) ? { grantId: { type: Sequelize.STRING } } : undefined),
     ...(name === 'DeviceCode' ? { userCode: { type: Sequelize.STRING } } : undefined),
     ...(name === 'Session' ? { uid: { type: Sequelize.STRING } } : undefined),
-    data: { type: Sequelize.JSON },
+    data: { type: Sequelize.TEXT },
     expiresAt: { type: Sequelize.DATE },
     consumedAt: { type: Sequelize.DATE },
   }));
@@ -54,7 +54,7 @@ class SequelizeAdapter {
   async upsert(id, data, expiresIn) {
     await this.model.upsert({
       id,
-      data,
+      data: JSON.stringify(data),
       ...(data.grantId ? { grantId: data.grantId } : undefined),
       ...(data.userCode ? { userCode: data.userCode } : undefined),
       ...(data.uid ? { uid: data.uid } : undefined),
@@ -66,7 +66,7 @@ class SequelizeAdapter {
     const found = await this.model.findByPk(id);
     if (!found) return undefined;
     return {
-      ...found.data,
+      ...JSON.parse(found.data),
       ...(found.consumedAt ? { consumed: true } : undefined),
     };
   }
@@ -75,7 +75,7 @@ class SequelizeAdapter {
     const found = await this.model.findOne({ where: { userCode } });
     if (!found) return undefined;
     return {
-      ...found.data,
+      ...JSON.parse(found.data),
       ...(found.consumedAt ? { consumed: true } : undefined),
     };
   }
@@ -84,7 +84,7 @@ class SequelizeAdapter {
     const found = await this.model.findOne({ where: { uid } });
     if (!found) return undefined;
     return {
-      ...found.data,
+      ...JSON.parse(found.data),
       ...(found.consumedAt ? { consumed: true } : undefined),
     };
   }
