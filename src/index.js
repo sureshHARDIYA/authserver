@@ -14,9 +14,11 @@ const oidc = new Provider(process.env.APP_HOST, {
   clients: [
     {
       client_id: 'global',
+      application_type: 'web',
+      client_secret: 'global_secret',
       redirect_uris: [process.env.REDIRECT_URI || 'https://example.com'],
       response_types: ['id_token'],
-      grant_types: ['implicit'],
+      grant_types: ['implicit', 'authorization_code'],
       token_endpoint_auth_method: 'none',
     },
   ],
@@ -72,7 +74,6 @@ function setNoCache(req, res, next) {
 expressApp.get('/interaction/:uid', setNoCache, async (req, res, next) => {
   try {
     const details = await oidc.interactionDetails(req, res);
-    console.log('see what else is available to you for interaction views', details);
     const { uid, prompt, params } = details;
 
     const client = await oidc.Client.find(params.client_id);
