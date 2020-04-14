@@ -6,7 +6,7 @@
 > OpenId Connect 0Auth Server
 
 ### Meta
-> `http://oauth.mhof.ml/.well-known/openid-configuration`
+> `[YOU_HOST]/.well-known/openid-configuration`
 
 # Installation
 
@@ -24,11 +24,11 @@ node src/index.js
 
 # Grant Types
 ## `Implicit`
-> User initiates auth flow by building query URL and at the end, s/he will be redirected to `redirect_url` with `token` and/or `id_token`
+> User initiates auth flow by building query URL and at the end, s/he will be redirected to `redirect_url` with `id_token`
 
 ### Sample request
 ```
-http://oauth.mhof.ml/auth?client_id=CLIENT_ID&response_type=id_token+token&scope=openid+email+patient/*.*&nonce=foobar&prompt=login
+[YOU_HOST]/auth?client_id=CLIENT_ID&response_type=id_token&scope=openid+username+patient/*.*&nonce=anything&prompt=login
 ```
 ## `Authorization_code`
 > The authorization code flow returns an authorization code that can then be exchanged for an identity token and/or access token
@@ -36,7 +36,7 @@ http://oauth.mhof.ml/auth?client_id=CLIENT_ID&response_type=id_token+token&scope
 ### Sample Request 1 (Get authorization_code)
 > Browser GET Request to
 `
-http://oauth.mhof.ml/auth?client_id=authzwala_id&response_type=code&scope=openid+email&nonce=foobar&prompt=login
+[YOU_HOST]/auth?client_id=authzwala_id&response_type=code&scope=openid+username&nonce=anything&prompt=login
 `
 ### Sample Request 2 (Exchange authorization_code for access_token)
 ```

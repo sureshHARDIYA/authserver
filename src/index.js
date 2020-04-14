@@ -5,20 +5,16 @@ const Provider = require('oidc-provider');
 // const assert = require('assert');
 
 require('dotenv').config();
-const RedisAdapter = require('./redis_adapter');
+const Adapter = require('./adapter');
 
 // Placeholder account model, Lets work on this after demo
 const Account = require('./account');
-const AppConfig = require('./config/appconfig');
 
-// eslint-disable-next-line no-console
-console.log('appconfig is', AppConfig);
-
-const oidc = new Provider(AppConfig.APP_HOST, {
-  findById: Account.findById,
+const oidc = new Provider(process.env.APP_HOST, {
+  findAccount: Account.findAccount,
   claims: {
     openid: ['sub'],
-    email: ['email', 'email_verified'],
+    username: ['username'],
   },
   scopes: ['patient/*.*'],
   interactionUrl(ctx) {
@@ -34,6 +30,7 @@ const oidc = new Provider(AppConfig.APP_HOST, {
     discovery: true,
     encryption: true,
     introspection: true,
+    jwtIntrospection: true,
     registration: true,
     request: true,
     revocation: true,
@@ -47,6 +44,14 @@ oidc
   .initialize({
     keystore,
     clients: [
+      {
+        client_id: 'global',
+        client_secret: process.env.GLOBAL_SECRET,
+        redirect_uris: [process.env.WEBCLIENT_URL || 'https://example.com'],
+        response_types: ['id_token token'],
+        grant_types: ['implicit'],
+        token_endpoint_auth_method: 'client_secret_post',
+      },
       {
         client_id: 'nirmal_implicit',
         client_secret: 'nirmal_implicit_secret',
@@ -71,11 +76,11 @@ oidc
         response_types: [],
       },
     ],
-    adapter: RedisAdapter,
+    adapter: Adapter,
   })
   .then(() => {
     oidc.proxy = true;
-    oidc.keys = AppConfig.SECURE_KEY.split(',');
+    oidc.keys = process.env.SECURE_KEY.split(',');
   })
   .then(() => {
     const expressApp = express();
@@ -96,7 +101,7 @@ oidc
               return 'login';
           }
         })();
-        res.render(view, { details });
+        res.render(view, { details, flash: null });
       });
     });
 
@@ -109,10 +114,10 @@ oidc
     });
 
     expressApp.post('/interaction/:grant/login', parse, (req, res, next) => {
-      Account.authenticate(req.body.email, req.body.password)
+      Account.authenticate(req.body.username, req.body.password)
         .then(account => oidc.interactionFinished(req, res, {
           login: {
-            account: account.accountId,
+            account: account.user_id.toString(),
             remember: !!req.body.remember,
             ts: Math.floor(Date.now() / 1000),
           },
@@ -120,9 +125,13 @@ oidc
             rejectedScopes: req.body.remember ? [] : ['offline_access'],
           },
         }))
-        .catch(next);
+        .catch(() => {
+          oidc.interactionDetails(req).then((details) => {
+            res.render('login', { details, flash: 'Invalid username or password.', });
+          })
+        });
     });
 
     expressApp.use(oidc.callback);
-    expressApp.listen(AppConfig.PORT);
+    expressApp.listen(process.env.PORT);
   });
